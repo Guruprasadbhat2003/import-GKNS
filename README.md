@@ -1,45 +1,54 @@
-# import-GKNS
-dedicated repo for  track-1 Great Bangalore Hackathon   
+# React + TypeScript + Vite
 
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-**Risk-Based Proctoring System for Online Assessments**
-Build a risk-based proctoring system that ensures academic integrity in online assessments without relying on video surveillance. The system should analyse non-invasive behavioural inputs like mouse movements, keystroke patterns, and activity shifts to calculate a dynamic risk score. It should proactively address flagged risks while maintaining a seamless experience for both candidates and administrators.
+Currently, two official plugins are available:
 
-**Features**
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
+## Expanding the ESLint configuration
 
-**Behavioural Analysis for Risk Detection: The system should continuously monitor user interactions such as mouse movements (e.g., erratic behaviour, prolonged inactivity), keystroke patterns (e.g., speed, consistency, unnatural pauses), and activity shifts (e.g., frequent switching between windows, inactive periods).**
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-**Dynamic Risk Scoring:** The system should assign a real-time risk score to each candidate based on behavioural inputs and adjust it dynamically as more data is collected. It should define thresholds for low, medium, and high-risk levels.
-Automated & Adaptive Interventions: The system should prompt candidates with a warning message if risk levels increase, lock certain functionalities (e.g., prevent tab switching) upon repeated suspicious activity.
-
-
-
-
-
-
-**Seamless Candidate Experience:** 
-The proctoring mechanism should ensure test integrity while avoiding intrusive surveillance, minimizing false positives, and ensuring accessibility across devices with a user-friendly interface.
-Scalability & Privacy Compliance: The solution should ensure compatibility with large-scale online assessments and comply with data privacy regulations (e.g., GDPR, FERPA) by avoiding personally identifiable video/audio data.
-Expectations
-
-
-
-
-**Tool & Service Integration:** 
-The system should dynamically determine which monitoring and response services to invoke based on real-time user behaviour analysis. Avoid hardcoding rule-based interventions to ensure flexibility and adaptability.
-
-
-
-
-
-**Adaptive Risk Management:** 
-The system should respond proportionally to detected risks, ensuring legitimate candidates are not unfairly penalized while effectively addressing suspicious behaviour.
-
-
-
-**Comprehensive Implementation:**
-Build a robust and integrated solution that unifies risk assessment and adaptive interventions.
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```

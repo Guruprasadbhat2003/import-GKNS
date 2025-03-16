@@ -35,10 +35,26 @@ export const Exam: React.FC = () => {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setRiskLevel('high'); // Set to red immediately when ESC is pressed
+        setRiskLevel('high');
         setShowWarning(true);
         setCheatingDetected(true);
-        handleCheatingAttempt('ESC key pressed');
+        handleCheatingAttempt('Escape key pressed');
+      }
+      // Disable Ctrl+Shift+I (Dev Tools)
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') {
+        e.preventDefault();
+        setRiskLevel('high');
+        setShowWarning(true);
+        setCheatingDetected(true);
+        handleCheatingAttempt('Dev Tools attempt');
+      }
+      // Disable Ctrl+P (Print)
+      if (e.ctrlKey && e.key.toLowerCase() === 'p') {
+        e.preventDefault();
+        setRiskLevel('high');
+        setShowWarning(true);
+        setCheatingDetected(true);
+        handleCheatingAttempt('Print attempt');
       }
     };
 
@@ -64,11 +80,20 @@ export const Exam: React.FC = () => {
       handleCheatingAttempt('Copy attempt');
     };
 
+    // NEW: Handle when the window loses focus (browser goes out-of-focus)
+    const handleWindowBlur = () => {
+      setRiskLevel('high');
+      setShowWarning(true);
+      setCheatingDetected(true);
+      handleCheatingAttempt('Switched to different window');
+    };
+
     // Disable right-click and copy events
     document.addEventListener('contextmenu', handleRightClick);
     document.addEventListener('copy', handleCopy);
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('blur', handleWindowBlur);
     
     if (screenfull.isEnabled) {
       document.addEventListener(screenfull.raw.fullscreenchange, handleFullscreenChange);
